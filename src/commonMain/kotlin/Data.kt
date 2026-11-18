@@ -188,7 +188,7 @@ object Profile {
     }
 
     fun load(v: Views) { runCatching {
-        val p = (v.storage["gatra_save"] ?: return).split(";")
+        val p = (v.storage.getOrNull("gatra_save") ?: return).split(";")
         coins = p[0].toInt(); gems = p[1].toInt(); energy = p[2].toInt(); lang = p[3].toInt()
         joyOpacity = p[4].toDouble(); joyFloating = p[5].toBoolean(); volume = p[6].toDouble()
         resolution = p[7].toInt(); fps = p[8].toInt(); hero = p[9].toInt()
