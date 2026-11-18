@@ -1,6 +1,6 @@
 import korlibs.korge.gradle.*
 
-plugins { id("com.soywiz.korge") version "4.0.10" }
+plugins { id("com.soywiz.korge") version "4.0.9" }
 
 korge {
     id = "com.gatra.stickman"
