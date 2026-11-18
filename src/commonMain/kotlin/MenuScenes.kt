@@ -6,17 +6,17 @@ import korlibs.korge.scene.*
 import korlibs.korge.view.*
 import korlibs.time.*
 
-private fun SContainer.header(title: String, color: RGBA = Colors["#ffb02e"]) {
+private fun SContainer.header(title: String, color: RGBA = Colors["#ffb02e"], back: suspend () -> Unit) {
     solidRect(1280.0, 720.0, Colors["#141830"])
     txt(title, 40.0, 20.0, 40.0, color)
-    btn(tr("back"), 1060.0, 20.0, 180.0, 56.0, Colors["#3a4270"]) { Profile.save(views); sceneContainer.changeTo({ LobbyScene() }) }
+    btn(tr("back"), 1060.0, 20.0, 180.0, 56.0, Colors["#3a4270"]) { back() }
     txt("COIN ${num(Profile.coins)}   GEM ${num(Profile.gems)}", 560.0, 30.0, 22.0, Colors["#ffd23a"])
 }
 
 // ===================== HERO =====================
 class HeroesScene : Scene() {
     override suspend fun SContainer.sceneMain() {
-        header(tr("heroes"))
+        header(tr("heroes")) { Profile.save(views); sceneContainer.changeTo({ LobbyScene() }) }
         val detail = container()
         var sel = Profile.hero
         var preview: Fighter? = null
@@ -51,7 +51,7 @@ class HeroesScene : Scene() {
 // ===================== EQUIPMENT =====================
 class EquipmentScene : Scene() {
     override suspend fun SContainer.sceneMain() {
-        header(tr("equip"))
+        header(tr("equip")) { Profile.save(views); sceneContainer.changeTo({ LobbyScene() }) }
         var tab = Slot.WEAPON
         val list = container()
         fun render() {
@@ -80,7 +80,7 @@ class EquipmentScene : Scene() {
 // ===================== SHOP =====================
 class ShopScene : Scene() {
     override suspend fun SContainer.sceneMain() {
-        header(tr("shop"))
+        header(tr("shop")) { Profile.save(views); sceneContainer.changeTo({ LobbyScene() }) }
         val ids = listOf(41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 1, 2, 3, 16, 17, 18, 31, 36, 4, 19)
         val list = container()
         fun render() {
@@ -102,7 +102,7 @@ class ShopScene : Scene() {
 // ===================== QUEST =====================
 class QuestScene : Scene() {
     override suspend fun SContainer.sceneMain() {
-        header(tr("quests"))
+        header(tr("quests")) { Profile.save(views); sceneContainer.changeTo({ LobbyScene() }) }
         val list = container()
         fun render() {
             list.removeChildren()

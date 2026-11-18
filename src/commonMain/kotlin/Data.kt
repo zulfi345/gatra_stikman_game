@@ -2,6 +2,7 @@ package gatra
 
 import korlibs.image.color.*
 import korlibs.korge.view.Views
+import korlibs.korge.service.storage.storage
 import kotlin.math.max
 import kotlin.math.pow
 import kotlin.random.Random

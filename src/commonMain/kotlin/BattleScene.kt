@@ -155,10 +155,10 @@ class BattleScene(private val mode: Mode = Mode.CAMPAIGN) : Scene() {
         placeJoy()
         if (Profile.joyFloating) { joyBase.visible = false; joyKnob.visible = false }
         joyArea.onDown {
-            if (Profile.joyFloating) { jcx = joyArea.localMouseX(views); jcy = joyArea.localMouseY(views); joyBase.visible = true; joyKnob.visible = true }
-            axis = ((joyArea.localMouseX(views) - jcx) / 70.0).coerceIn(-1.0, 1.0); placeJoy()
+            if (Profile.joyFloating) { jcx = joyArea.localMousePos(views).x; jcy = joyArea.localMousePos(views).y; joyBase.visible = true; joyKnob.visible = true }
+            axis = ((joyArea.localMousePos(views).x - jcx) / 70.0).coerceIn(-1.0, 1.0); placeJoy()
         }
-        joyArea.onMove { axis = ((joyArea.localMouseX(views) - jcx) / 70.0).coerceIn(-1.0, 1.0); placeJoy() }
+        joyArea.onMove { axis = ((joyArea.localMousePos(views).x - jcx) / 70.0).coerceIn(-1.0, 1.0); placeJoy() }
         val joyUp = { axis = 0.0; placeJoy(); if (Profile.joyFloating) { joyBase.visible = false; joyKnob.visible = false } }
         joyArea.onUp { joyUp() }; joyArea.onUpOutside { joyUp() }
 

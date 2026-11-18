@@ -2,6 +2,7 @@ package gatra
 
 import korlibs.image.color.*
 import korlibs.korge.view.*
+import korlibs.math.geom.Angle
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
@@ -31,11 +32,11 @@ class Fighter(
     private var flash = 0.0
     private val aura: Circle
     private val rig: Container
-    private val legL: Container
-    private val legR: Container
-    private val armB: Container
-    private val armF: Container
-    private val slash: SolidRect
+    private lateinit var legL: Container
+    private lateinit var legR: Container
+    private lateinit var armB: Container
+    private lateinit var armF: Container
+    private lateinit var slash: SolidRect
     private var tail: SolidRect? = null
     private val barFill: SolidRect
 
@@ -63,12 +64,12 @@ class Fighter(
                 solidRect(5 * sc, 16 * sc, Colors["#ffd23a"]).xy(6 * sc, -116 * sc)
             }
             slash = solidRect(86 * sc, 9 * sc, look.sword).xy(8 * sc, -52 * sc)
-            slash.alpha = 0.0; slash.rotationDegrees = 18.0
+            slash.alpha = 0.0; slash.rotation = Angle.fromDegrees(18.0)
             armF = container {
                 solidRect(5 * sc, 26 * sc, look.body).xy(-2.5 * sc, 0.0)
                 solidRect(5 * sc, 46 * sc, look.sword).xy(-2.5 * sc, 24 * sc)
             }.xy(0.0, -72 * sc)
-            armF.rotationDegrees = -75.0
+            armF.rotation = Angle.fromDegrees(-75.0)
         }
         solidRect(54 * sc, 6.0, Colors["#401010"]).xy(-27 * sc, -126 * sc - 10).also { it.visible = showBar && !isPlayer && !isBoss }
         barFill = solidRect(54 * sc, 6.0, Colors["#ff3b3b"]).xy(-27 * sc, -126 * sc - 10).also { it.visible = showBar && !isPlayer && !isBoss }
@@ -83,12 +84,12 @@ class Fighter(
         if (flash > 0) { flash -= d; if (flash <= 0) rig.alpha = 1.0 }
         if (swingT < 1.0) swingT = min(1.0, swingT + d / 0.22)
         val sw = swingT < 1.0
-        armF.rotationDegrees = if (sw) -150.0 + 135.0 * swingT else -75.0 + sin(t * 3) * 4
+        armF.rotation = Angle.fromDegrees(if (sw) -150.0 + 135.0 * swingT else -75.0 + sin(t * 3) * 4)
         slash.alpha = if (sw) 0.55 * (1 - swingT) else 0.0
         val w = if (moving) sin(t * 14) * 32 else 0.0
-        legL.rotationDegrees = w; legR.rotationDegrees = -w
-        armB.rotationDegrees = -w * 0.8 + 8
-        tail?.rotationDegrees = sin(t * 9) * 12
+        legL.rotation = Angle.fromDegrees(w); legR.rotation = Angle.fromDegrees(-w)
+        armB.rotation = Angle.fromDegrees(-w * 0.8 + 8)
+        tail?.rotation = Angle.fromDegrees(sin(t * 9) * 12)
         aura.alpha = 0.14 + 0.05 * sin(t * 3)
         rig.y = if (moving) -abs(sin(t * 14)) * 3 else -sin(t * 3)
         barFill.width = 54 * sc * (hp / maxHp).coerceIn(0.0, 1.0)
